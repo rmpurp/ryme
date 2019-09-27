@@ -1,3 +1,4 @@
 # superiorbocal.github.io
 
-Course website
+Course website for Fall 2019
+
