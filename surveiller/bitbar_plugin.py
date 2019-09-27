@@ -11,7 +11,7 @@ from dateutil import relativedelta
 from utils import seconds_to_readable_str
 
 devnull = open(os.devnull, "w")
-script = expanduser("~/Developer/surveiller/surveiller.py")
+script = expanduser("~/dev/surveiller/surveiller.py")
 titlefont = " | size=14 font=FantasqueSansMonoNerdFontComplete-Bold color=white"
 tablefont = " | size=14 font=FantasqueSansMonoNerdFontComplete-Regular color=#00802b"
 trackfont = " | size=14 font=FantasqueSansMonoNerdFontComplete-Regular color=yellow"
@@ -98,3 +98,4 @@ splice_tables("Last 7 Days", "Last Work Week", interface.get_progress(last_week)
               interface.get_progress(last_workweek))
 print(interface.get_total(last_week) + subfont)
 print(interface.get_total(last_workweek) + subfont + " alternate=true")
+
