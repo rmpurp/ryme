@@ -61,13 +61,17 @@ def status():
                            seconds_to_readable_str(seconds, use_days=True))
 
 
-def track(item):
+def track(item, task="N/A", start=None):
     """Track the item that is passed in"""
     end()
+    
+    if start is None:
+        now = datetime.datetime.now()
+    else:
+        now = start
 
-    now = datetime.datetime.now()
     events = read()
-    events.add(Event(item, "N/A", now, now, "started"))
+    events.add(Event(item, task, now, now, "started"))
     events.write()
 
 
