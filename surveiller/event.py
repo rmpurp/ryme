@@ -1,12 +1,15 @@
 import datetime
 
-from os.path import isfile
+from os.path import isfile, join, dirname
+import os
 from itertools import groupby, zip_longest
 from operator import attrgetter, add
 from functools import reduce
 import csv
 import config
 from sortedcontainers import SortedList
+import tempfile
+import shutil
 
 
 def grouper(iterable, n, fillvalue=None):
@@ -39,10 +42,18 @@ class EventList(SortedList):
         if not filepath:
             filepath = config.FILE
 
-        with open(filepath, 'w') as f:
-            csv_writer = csv.writer(f)
+        directory = dirname(filepath)
+        temppath = join(directory, "temporary")
+
+        with open(temppath, "w") as temp:
+
+            csv_writer = csv.writer(temp)
+
             for event in reversed(self):
                 csv_writer.writerow(event.to_csv_row())
+
+        shutil.copyfile(temppath, filepath)
+        os.remove(temppath)
 
 
 class Event:
@@ -122,10 +133,10 @@ def read():
         return _read(frb)
 
 
-def _read(file):
+def _read(f):
     events = EventList()
 
-    csv_reader = csv.reader(file)
+    csv_reader = csv.reader(f)
     for subject, name, start, end, flag in csv_reader:
         start = datetime.datetime.fromisoformat(start)
         end = datetime.datetime.fromisoformat(end)

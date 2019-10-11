@@ -13,6 +13,9 @@ def get_subjects():
 def get_progress(since):
     """Get a dictionary containing the amount of time each subject has been
        worked on since the time given in the argument"""
+    if isinstance(since, str):
+        since = datetime.datetime.fromisoformat(since)
+
     events = read()
     return events.group_by_subject(since)
 
@@ -43,7 +46,7 @@ def merge_with(line):
     events.write()
 
 
-def status():
+def status(style="text"):
     """Return a one-line status of what the user is currently doing"""
     e = read_most_recent()
 
@@ -57,8 +60,11 @@ def status():
         seconds = e.time_since_start()
         subject = e.subject
 
-    return "{}: {}".format(subject,
-                           seconds_to_readable_str(seconds, use_days=True))
+    if style == "text":
+        return "{}: {}".format(subject,
+                               seconds_to_readable_str(seconds, use_days=True))
+    elif style == "dict":
+        return {'subject': subject, 'time': seconds}
 
 
 def track(item, task="N/A", start=None):
@@ -68,7 +74,10 @@ def track(item, task="N/A", start=None):
     if start is None:
         now = datetime.datetime.now()
     else:
-        now = start
+        if isinstance(start, str):
+            now = datetime.datetime.fromisoformat(start)
+        else:
+            now = start
 
     events = read()
     events.add(Event(item, task, now, now, "started"))
@@ -121,18 +130,22 @@ def cancel():
 
 def end(when=None):
     """
-    Ends the event
+    End the event
     """
     if when is None:
         when = datetime.datetime.now()
+    elif isinstance(when, str):
+        when = datetime.datetime.fromisoformat(when)
 
     events = read()
     if not events:
-        return
+        return False
     latest = events[-1]
     if latest.flag == "ended" or latest.flag == "cancelled":
-        return
+        return False
 
     latest.end = when
     latest.flag = "ended"
     events.write()
+    return True
+
