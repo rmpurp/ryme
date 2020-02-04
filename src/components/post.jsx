@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import ReactMarkdown from 'react-markdown'
+import PostFooter from './post_footer'
 
 class Post extends React.Component {
 
@@ -17,13 +18,16 @@ class Post extends React.Component {
   render() {
     return (
       <article className="ryme-post">
-        <div className="ryme-title">
-          {this.props.title}
-        </div>
-        <div className="ryme-date">
-          {this.props.date.format('MMMM Do, YYYY')}
-        </div>
-        <ReactMarkdown source={this.props.content}/>
+        <header>
+          <div className="ryme-title">
+            {this.props.title}
+          </div>
+          <div className="ryme-date">
+            {this.props.date.format('MMMM Do, YYYY')}
+          </div>
+        </header>
+        <ReactMarkdown className="ryme-content" source={this.props.content} />
+        <PostFooter />
       </article>
     );
   }

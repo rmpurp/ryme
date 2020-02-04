@@ -1,12 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path');
 const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html", 
+  template: "./src/index.html",
   filename: "./index.html"
 });
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.jsx",
   output: { // NEW
     path: path.join(__dirname, 'dist'),
     filename: "[name].js"
@@ -28,6 +28,10 @@ module.exports = {
         use: ['file-loader'],
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   }
+
 };
 
