@@ -11,18 +11,6 @@ const POST_DIR = path.join(__dirname, '../posts')
 
 let yearMonthToPayloadCache = new Map()
 
-const mockResponse = {
-  posts: [
-    {
-      content: "@@Title=New Year!\n@@Date=2020-01-01\n# It's the new year! \n *DOPE*",
-    }, {
-      content: "@@Title=New Year! +1\n@@Date=2020-01-02\nIt's the new year + 1!\n```swift\ var x = 5 \nYAY\n```",
-    }, {
-      content: "@@Tile=<<< wrong format! +2\n@@Date=2020-01-03\nIt's the new year + 1!",
-    },
-  ]
-}
-
 app.get('/api/:year/:month', (req, res) => {
   postIO.getYearMonthPayload(POST_DIR, req.params.year, req.params.month, null)
   .then ( posts => {
