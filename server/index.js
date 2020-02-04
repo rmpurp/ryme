@@ -28,6 +28,22 @@ app.get('/api/:year/:month/:day/:title', (req, res) => {
         })
 })
 
+app.get('/api/archive', (req, res) => {
+
+    postIO.getYearMonthWithPosts(POST_DIR).then(yearMonthMap => {
+
+
+        console.log(yearMonthMap);
+        let response = { entries: [] }
+        yearMonthMap.forEach((value, key) => {
+            value.forEach(month => {
+                response.entries.push({ year: key, month: month })
+            })
+        });
+        res.json(response);
+    })
+})
+
 app.get('/api/latest', (req, res) => {
     postIO.getYearMonthWithPosts(POST_DIR).then(yearMonthMap => {
         console.log(yearMonthMap)
@@ -47,6 +63,10 @@ app.use('/:year/:month', express.static(DIST_DIR));
 app.use('/:year/:month/:day/:title', express.static(DIST_DIR));
 
 app.get("/", (req, res) => {
+    res.sendFile(HTML_FILE);
+})
+
+app.get("/archives", (req, res) => {
     res.sendFile(HTML_FILE);
 })
 
