@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "Martel Sans";
+  src: url("fonts/MartelSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Martel Sans";
+  src: url("fonts/MartelSans-Bold.ttf");
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+body {
+  font-size: 18px;
+}
+
+.ryme-title {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.15;
+}
+
+.ryme-post {
+  padding-bottom: 50px;
+  font-family: "Martel Sans", sans-serif;
+}
+
+.ryme-date {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.ryme-articles {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+}
