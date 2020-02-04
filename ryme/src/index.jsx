@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Month from './components/month';
 import MastHead from './components/masthead';
+import SinglePost from './components/single_post';
 import _ from './style.css';
 
 import {
@@ -15,15 +16,14 @@ const Index = () => {
 
   return (
     <>
-      <MastHead />
 
       <Router>
-        <Switch>
-          <Route exact path="/" component={Month}>
-          </Route>
-          <Route exact path="/:year/:month" component={Month}>
+        <MastHead />
 
-          </Route>
+        <Switch>
+          <Route exact path="/" component={Month} />
+          <Route exact path="/:year/:month" component={Month} />
+          <Route exact path="/:year/:month/:day/:title" component={SinglePost} />
         </Switch>
       </Router>
     </>
