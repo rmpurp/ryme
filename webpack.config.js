@@ -4,6 +4,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html", 
   filename: "./index.html"
 });
+
 module.exports = {
   entry: "./src/index.js",
   output: { // NEW
@@ -19,6 +20,12 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      }, {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      }, {
+        test: /\.ttf$/,
+        use: ['file-loader'],
       }
     ]
   }
