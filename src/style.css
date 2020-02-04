@@ -88,16 +88,22 @@ pre code {
     margin-bottom: 60px;
 }
 
+.ryme-permalink {
+    margin-left: 5px;
+}
+
 .ryme-masthead {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 60px;
 }
 
-.ryme-site-title {
+#ryme-site-title {
     font-family: "Muli", sans-serif;
     font-weight: bold;
     font-size: 100px;
+    color: black !important;
+    text-decoration: none;
 }
 
 @media screen and (max-width: 800px) {
