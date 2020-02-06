@@ -4,9 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const parseData = ({ slug, rawPostContent }) => {
-  console.log("SDFLDSKJFLDKSJ");
-  console.log(`SLUG: ${slug}`);
-  let re = /^@@Title=(.+)$\n+^@@Date=(.+)$\n+^([\d\D]+)/m
+ let re = /^@@Title=(.+)$\n+^@@Date=(.+)$\n+^([\d\D]+)/m
   let matches = rawPostContent.match(re);
   if (matches) {
     return {
@@ -24,12 +22,11 @@ class SinglePost extends React.Component {
 
   componentDidMount() {
     let { year, month, day, title } = this.props.match.params
-    console.log(year, month, day, title);
 
     axios.get(`/api/${year}/${month}/${day}/${title}`)
       .then((response) => {
-        console.log(response);
-        let post = parseData(response.data.post)
+        let post = parseData(response.data.content)
+        document.title = post.title
         this.setState({ post: post })
       })
   }
