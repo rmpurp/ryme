@@ -16,7 +16,7 @@ There are two special fields that you have to put in the Markdown files:
 @@Date=2020-01-01
 ```
 
-You can specify a ISO-8601 date including the time to order posts on the same day. 
+You can specify a ISO-8601 date including the time to order posts on the same day. Make sure the date you enter matches which folder the file is put into.
 
 ## Usage
 1. Install node modules using `npm install`.
