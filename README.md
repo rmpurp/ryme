@@ -1,4 +1,4 @@
-# ryme
+# Ryme
 A Lean and Modern Blogging Engine
 
 Ryme is a blogging engine based on Node.js on the backend and React.js in the frontend. The frontend is designed as a single-page app with URL routing through the React Router framework. The frontend is easily customizable by virtue of being composed of modular React components.
