@@ -1,5 +1,5 @@
 import React from 'react';
-import {FOOTER} from '../config';
+import { FOOTER } from '../config';
 
 import {
   BrowserRouter as Router,
@@ -12,7 +12,7 @@ class SiteFooter extends React.Component {
   render() {
     return (
       <div className="ryme-site-footer">
-        <div className="ryme-hairline"/>
+        <div className="ryme-hairline" />
         <Link to="/archives">Archives</Link>
       </div>
     );

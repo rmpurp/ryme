@@ -28,6 +28,7 @@
 		D8F289DF23E4F29C005F5645 /* beginning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beginning.mp3; sourceTree = "<group>"; };
 		D8F289E023E4F6C5005F5645 /* SilenceStripping.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SilenceStripping.entitlements; sourceTree = "<group>"; };
 		D8F289E123E50598005F5645 /* input_float.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = input_float.wav; sourceTree = "<group>"; };
+		D8FA28E523EB8FA400AF889C /* cs189.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cs189.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 			children = (
 				D8F289E023E4F6C5005F5645 /* SilenceStripping.entitlements */,
 				D8F289D823E4F158005F5645 /* main.swift */,
+				D8FA28E523EB8FA400AF889C /* cs189.mp3 */,
 				D8F289E123E50598005F5645 /* input_float.wav */,
 				D8F289DF23E4F29C005F5645 /* beginning.mp3 */,
 			);

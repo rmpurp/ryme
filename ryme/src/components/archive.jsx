@@ -2,6 +2,7 @@ import React from 'react';
 import { FOOTER } from '../config';
 import lodash from 'lodash';
 import axios from 'axios';
+import {SITE_TITLE} from '../config';
 
 import {
   BrowserRouter as Router,
@@ -17,12 +18,13 @@ class Archive extends React.Component {
 
 
   componentDidMount() {
+    document.title = `${SITE_TITLE} Archives`
+
     axios.get('/api/archive').then(response => {
-      let entries = response.data.entries;
+      let entries = response.data.content;
       this.setState({
         entries: lodash.sortBy(entries, ["year", "month"])
       })
-      console.log(this.state.entries);
     })
   }
 

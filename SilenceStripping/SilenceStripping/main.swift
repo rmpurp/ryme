@@ -10,7 +10,7 @@
 import Foundation
 import AVFoundation
 
-let url = URL(fileURLWithPath: "/Users/rpurp/pdev/SilenceStripping/SilenceStripping/beginning.mp3")
+let url = URL(fileURLWithPath: "/Users/rpurp/pdev/SilenceStripping/SilenceStripping/cs189.mp3")
 let outURL = URL(fileURLWithPath: "/Users/rpurp/Desktop/out.aac")
 
 let outputFormatSettings = [
@@ -27,9 +27,9 @@ let bufferFormatSettings = [
     ] as [String : Any]
 
 let audioFile = try AVAudioFile(forReading: url)
-let outAudioFile = try AVAudioFile(forWriting: outURL, settings: outputFormatSettings, commonFormat: .pcmFormatFloat32, interleaved: true)
+let outAudioFile = try AVAudioFile(forWriting: outURL, settings: outputFormatSettings, commonFormat: .pcmFormatFloat32, interleaved: false)
 
-let outputFrameCapacity: UInt32 = 44100 * 10
+let outputFrameCapacity: UInt32 = 44100 * 60
 let inputFrameCapacity: UInt32 = 500
 
 let inputBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(settings: bufferFormatSettings)!, frameCapacity: inputFrameCapacity)!
@@ -37,11 +37,14 @@ let outputBuffer = AVAudioPCMBuffer(pcmFormat: AVAudioFormat(settings: bufferFor
 let outputChannelData = outputBuffer.floatChannelData!.pointee
 
 print("Starting...")
-var count: UInt32 = 0
-var shouldCrossfade = false
-let crossFadeLength: UInt32 = 50
 
-for _ in 0..<(outputFrameCapacity / inputFrameCapacity) {
+var shouldCrossfade = false
+let crossFadeLength: UInt32 = 1
+
+var count: UInt32 = 0
+
+while audioFile.framePosition < audioFile.length {
+    
     try audioFile.read(into: inputBuffer, frameCount: inputFrameCapacity)
     let inputChannelData = inputBuffer.floatChannelData!.pointee
     
@@ -62,6 +65,13 @@ for _ in 0..<(outputFrameCapacity / inputFrameCapacity) {
             }
         }
         shouldCrossfade = false
+        if count >= outputFrameCapacity - inputFrameCapacity {
+            outputBuffer.frameLength = UInt32(count)
+            try outAudioFile.write(from: outputBuffer)
+            count = 0
+            print("One minute done.")
+        }
+        
     } else if !shouldCrossfade {
         for i in 0..<crossFadeLength {
             let fadeAmount = sqrt(Float32(1/2 * (1 - i / crossFadeLength)))
@@ -71,9 +81,12 @@ for _ in 0..<(outputFrameCapacity / inputFrameCapacity) {
         count -= crossFadeLength
         shouldCrossfade = true
     }
+    
 }
 
 outputBuffer.frameLength = UInt32(count)
 try outAudioFile.write(from: outputBuffer)
+count = 0
+
 
 print("Done")

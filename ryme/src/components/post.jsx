@@ -11,7 +11,6 @@ import {
   Link,
 } from "react-router-dom";
 
-
 class Post extends React.Component {
 
   static propTypes = {
@@ -30,7 +29,6 @@ class Post extends React.Component {
     let month = this.props.date.format("MM")
     let day = this.props.date.format("DD")
     let permalink = `/${year}/${month}/${day}/${this.props.slug}`
-    console.log(this.props);
     return (
       <article className="ryme-post">
         <header>

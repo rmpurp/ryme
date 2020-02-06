@@ -2,6 +2,7 @@ import React from 'react';
 import Post from './post';
 import axios from 'axios';
 import moment from 'moment';
+import {SITE_TITLE} from '../config';
 
 const sortByKey = (array, key) => {
   return array.sort(function (a, b) {
@@ -29,21 +30,22 @@ class Month extends React.Component {
   }
 
   componentDidMount() {
-    console.log("PROPS:", this.props)
 
     let { year, month } = this.props.match.params
+    
+    document.title = SITE_TITLE
+
 
     if (year && month) {
     axios.get(`/api/${year}/${month}`)
       .then((response) => {
-        let posts = sortByKey(response.data.posts.map(parseData), "date")
+        let posts = sortByKey(response.data.content.map(parseData), "date")
         this.setState({ posts: posts })
       })
     } else {
     axios.get(`/api/latest`)
       .then((response) => {
-        console.log(response.data);
-        let posts = sortByKey(response.data.posts.map(parseData), "date")
+        let posts = sortByKey(response.content.posts.map(parseData), "date")
         this.setState({ posts: posts })
       })
     }
