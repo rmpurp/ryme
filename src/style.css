@@ -1,0 +1,160 @@
+@font-face {
+    font-family: "Muli";
+    src: url("fonts/Muli-Regular.ttf");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Muli";
+    src: url("fonts/Muli-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Muli";
+    src: url("fonts/Muli-SemiBold.ttf");
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.ryme-site-footer {
+    font-family: "Muli", sans-serif;
+    text-align: center;
+    margin-top: 20pt;
+    margin-bottom: 50pt;
+}
+
+p {
+    font-size: 16px;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.ryme-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.ryme-date {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+    padding-bottom: 10px;
+}
+
+.ryme-post {
+    margin-top: 50px;
+    font-family: "Muli", sans-serif;
+}
+
+.ryme-articles {
+    max-width: 800px;
+    width: 90%;
+    border: 20px;
+    margin: 0 auto;
+}
+
+pre code {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: block;
+    padding: 20px;
+}
+
+.ryme-footer {
+    /* color: rgba(0, 0, 0, 0.6); */
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    /* margin-bottom: 60px; */
+}
+
+.ryme-permalink {
+    margin-left: 5px;
+}
+
+.ryme-masthead {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#ryme-site-title {
+    font-family: "Muli", sans-serif;
+    font-weight: bold;
+    font-size: 100px;
+    color: black !important;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 800px) {
+    .ryme-site-title {
+        font-size: 60px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .ryme-site-title {
+        font-size: 40px;
+    }
+}
+
+.ryme-author {
+    font-family: "Muli", sans-serif;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+}
+
+.ryme-hairline {
+    max-width: 800px;
+    width: 90%;
+    margin: 0 auto;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.ryme-archive {
+    list-style-type: none;
+    list-style-position: inside;
+    font-family: "Muli", sans-serif;
+    display: table;
+    margin: 0 auto;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ryme-site-footer .ryme-hairline {
+    margin-bottom: 20px;
+}
+
+img{
+  max-width: 100%;
+  max-height: 100%;
+}

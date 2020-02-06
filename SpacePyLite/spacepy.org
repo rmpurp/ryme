@@ -1,9 +1,0 @@
-* SpacePy API
- * learn.py
-   * CardBag
-     * learn(cards, show_fn=None, rate_fn=None, write_fn=None, num_cards=-1)
-     * __init__(self, cards, num_cards, shuffle=True)
-       * refill_bag(self)
-       * recycle_last(self)
-       * __next__(self)
-       * __iter(self)
