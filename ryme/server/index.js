@@ -1,58 +1,35 @@
 import express, { Router } from 'express';
 import { join } from 'path';
-import { getYearMonthPayload, getSpecificMarkdownFile, getYearMonthWithPosts } from './get_posts';
-const app = express();
+import { getYearMonthPayload, getSpecificMarkdownFile, getYearMonthWithPosts, getRecentPostsPayload } from './get_posts';
+import { requiresAuth } from './auth';
+import { CACHE_PURGE_INTERVAL, DAYS_ON_FRONT_PAGE } from './server_config';
+import { sendCachedJSON } from './cache';
 
+const app = express();
 const port = process.env.PORT || 3000;
 const DIST_DIR = join(__dirname, '../dist');
-
-const HTML_FILE = join(DIST_DIR, 'index.html');
 const POST_DIR = join(__dirname, '../posts')
 
-var router = Router();
-
+// Caching
 let responseCache = new Map()
-
-const makeCacheKey = (req) => {
-  return [req.path].concat(Object.keys(req.params).sort()
-    .map(key => `${key}=${req.params[key]}`)
-  ).join("$$RYME_SEPARATOR$$")
-}
-
-const probeCacheElseFetch = (req, onMiss, finalAction) => {
-  let key = req.path;
-  let cachedValue;
-  if (cachedValue = responseCache.get(key)) {
-    console.log(`Cache hit with key ${key}`)
-    finalAction(cachedValue);
-  } else {
-    console.log(`Cache miss with key ${key}`)
-    onMiss().then(fetchedValue => {
-      responseCache.set(key, fetchedValue);
-      finalAction(fetchedValue);
-    })
-  }
-};
-
-const sendCachedJSON = (req, res, onMiss) => {
-  probeCacheElseFetch(req, onMiss, (fetchedValue) => {
-    res.json({ content: fetchedValue });
-  });
-};
-
 const clearCache = () => { responseCache = new Map() }
+setInterval(clearCache, CACHE_PURGE_INTERVAL);
 
-// TODO: Make main site render past 10 posts instead of most recent month
+// API calls
+app.post('/api/clear-cache', requiresAuth, (req, res) => {
+  clearCache();
+  res.send("Cache cleared.")
+})
 
 app.get('/api/:year/:month', (req, res) => {
-  sendCachedJSON(req, res, () => getYearMonthPayload(
+  sendCachedJSON(responseCache, req, res, () => getYearMonthPayload(
     POST_DIR,
     req.params.year,
     req.params.month))
 });
 
 app.get('/api/:year/:month/:day/:title', (req, res) => {
-  sendCachedJSON(req, res, () => getSpecificMarkdownFile(
+  sendCachedJSON(responseCache, req, res, () => getSpecificMarkdownFile(
     POST_DIR,
     req.params.year,
     req.params.month,
@@ -62,42 +39,29 @@ app.get('/api/:year/:month/:day/:title', (req, res) => {
 })
 
 app.get('/api/archive', (req, res) => {
-  sendCachedJSON(req, res, () => getYearMonthWithPosts(POST_DIR));
+  sendCachedJSON(responseCache, req, res, () => getYearMonthWithPosts(POST_DIR));
 })
 
 app.get('/api/latest', (req, res) => {
-  getYearMonthWithPosts(POST_DIR).then(yearMonthMap => {
-    latestYear = [...yearMonthMap.keys()].sort().pop()
-    latestMonth = [...(yearMonthMap.get(latestYear))].sort().pop()
-    getYearMonthPayload(POST_DIR, latestYear, latestMonth, null)
-      .then(posts => {
-        res.json({ posts: posts })
-      })
-  })
-})
+  sendCachedJSON(responseCache, req, res,
+    () => getRecentPostsPayload(POST_DIR, DAYS_ON_FRONT_PAGE));
+});
 
+app.get("/admin", [requiresAuth], (req, res) => {
+  res.statusCode = 403;
+  res.end();
+});
+
+// Static resources
 app.use('/', express.static(DIST_DIR));
+app.use('/archives', express.static(DIST_DIR));
 app.use('/:year/:month', express.static(DIST_DIR));
 app.use('/:year/:month/:day/:title', express.static(DIST_DIR));
 
-app.get("/", (req, res) => {
-  res.sendFile(HTML_FILE);
-});
-
-app.get("/archives", (req, res) => {
-  res.sendFile(HTML_FILE);
-});
-
-app.get("/:year/:month", (req, res) => {
-  res.sendFile(HTML_FILE);
-});
-
-app.get("/:year/:month/:day/:title", (req, res) => {
-  res.sendFile(HTML_FILE);
-});
+// app.use('/admin', express.static(DIST_DIR));
 
 app.use(function (req, res) {
-  res.status(404).send("ERROR 404: There's nothing here. Sorry.");
+  res.status(404).send("404: There's nothing here. Sorry.");
 });
 
 app.listen(port, function () {

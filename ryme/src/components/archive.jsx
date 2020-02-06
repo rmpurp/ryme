@@ -23,7 +23,7 @@ class Archive extends React.Component {
     axios.get('/api/archive').then(response => {
       let entries = response.data.content;
       this.setState({
-        entries: lodash.sortBy(entries, ["year", "month"])
+        entries: lodash.sortBy(entries, ["year", "month"]).reverse()
       })
     })
   }

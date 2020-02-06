@@ -6,20 +6,19 @@ import lodash from 'lodash';
 import { SITE_TITLE } from '../config';
 import PostContainer from './post_container';
 
-class Month extends React.Component {
+
+class RecentPosts extends React.Component {
   state = {
     rawPosts: []
   }
 
   componentDidMount() {
-    let { year, month } = this.props.match.params
-
     document.title = SITE_TITLE
 
-      axios.get(`/api/${year}/${month}`)
-        .then((response) => {
-          this.setState({ rawPosts: response.data.content })
-        })
+    axios.get(`/api/latest`)
+      .then((response) => {
+        this.setState({ rawPosts: response.data.content })
+      })
   }
 
 
@@ -30,4 +29,4 @@ class Month extends React.Component {
   }
 }
 
-export default Month;
+export default RecentPosts;
