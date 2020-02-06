@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node dist-server/index.js",
     "build-all": "webpack --mode production; npm run transpile",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",

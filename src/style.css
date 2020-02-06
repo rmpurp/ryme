@@ -113,13 +113,13 @@ pre code {
 }
 
 @media screen and (max-width: 800px) {
-    .ryme-site-title {
+    #ryme-site-title {
         font-size: 60px;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .ryme-site-title {
+    #ryme-site-title {
         font-size: 40px;
     }
 }
