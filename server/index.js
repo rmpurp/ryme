@@ -8,7 +8,8 @@ import { sendCachedJSON } from './cache';
 const app = express();
 const port = process.env.PORT || 3000;
 const DIST_DIR = join(__dirname, '../dist');
-const POST_DIR = join(__dirname, '../posts')
+const POST_DIR = join(__dirname, '../posts');
+const MEDIA_DIR = join(__dirname, '../media');
 
 // Caching
 let responseCache = new Map()
@@ -53,8 +54,9 @@ app.get("/admin", [requiresAuth], (req, res) => {
 });
 
 // Static resources
-app.use('/', express.static(DIST_DIR));
 app.use('/archives', express.static(DIST_DIR));
+app.use('/media', express.static(MEDIA_DIR));
+app.use('/', express.static(DIST_DIR));
 app.use('/:year/:month', express.static(DIST_DIR));
 app.use('/:year/:month/:day/:title', express.static(DIST_DIR));
 
