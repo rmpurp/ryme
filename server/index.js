@@ -54,16 +54,20 @@ app.get("/admin", [requiresAuth], (req, res) => {
 });
 
 // Static resources
-app.use('/archives', express.static(DIST_DIR));
 app.use('/media', express.static(MEDIA_DIR));
-app.use('/', express.static(DIST_DIR));
+app.use('/media', (_, res) => res.status(404).send("OOF! You've been 404'd."));
+// force failure instead of falling through; not using {fallthrough: false}
+// since it doesn't send a standard 404 message.
+
+app.use('/archives', express.static(DIST_DIR));
 app.use('/:year/:month', express.static(DIST_DIR));
 app.use('/:year/:month/:day/:title', express.static(DIST_DIR));
+app.use('/', express.static(DIST_DIR));
 
 // app.use('/admin', express.static(DIST_DIR));
 
 app.use(function (req, res) {
-  res.status(404).send("404: There's nothing here. Sorry.");
+  res.status(404).send("OOF! You've been 404'd.");
 });
 
 app.listen(port, function () {
