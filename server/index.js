@@ -64,7 +64,7 @@ app.get("/admin", [requiresAuth], (req, res) => {
 let mediaRouter = express.Router({strict: true})
 
 // Static resources
-mediaRouter.use('/', express.static(MEDIA_DIR, {fallthrough: false}));
+mediaRouter.use('/', express.static(MEDIA_DIR));
 mediaRouter.use( (_, res) => res.status(404).send("OOF! You've been 404'd."));
 
 app.use('/media', mediaRouter);
