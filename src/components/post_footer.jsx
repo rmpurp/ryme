@@ -1,5 +1,5 @@
 import React from 'react';
-import {FOOTER} from '../config';
+import { FOOTER } from '../config';
 
 class PostFooter extends React.Component {
   render() {

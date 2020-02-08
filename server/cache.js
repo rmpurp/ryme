@@ -2,14 +2,14 @@ export const probeCacheElseFetch = (cache, req, fetch, finalAction) => {
   let key = req.path;
   let cachedValue = cache.get(key);
   if (cachedValue) {
-    console.log(`Cache hit with key ${key}`)
+    console.log(`Cache hit with key ${key}`);
     finalAction(cachedValue);
   } else {
-    console.log(`Cache miss with key ${key}`)
+    console.log(`Cache miss with key ${key}`);
     fetch().then(fetchedValue => {
       cache.set(key, fetchedValue);
       finalAction(fetchedValue);
-    })
+    });
   }
 };
 

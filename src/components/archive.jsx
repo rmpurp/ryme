@@ -1,15 +1,9 @@
 import React from 'react';
-import { FOOTER } from '../config';
 import lodash from 'lodash';
 import axios from 'axios';
-import {SITE_TITLE} from '../config';
+import { SITE_TITLE } from '../config';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 class Archive extends React.Component {
   state = {
@@ -18,14 +12,14 @@ class Archive extends React.Component {
 
 
   componentDidMount() {
-    document.title = `${SITE_TITLE} Archives`
+    document.title = `${SITE_TITLE} Archives`;
 
     axios.get('/api/archive').then(response => {
       let entries = response.data.content;
       this.setState({
-        entries: lodash.sortBy(entries, ["year", "month"]).reverse()
-      })
-    })
+        entries: lodash.sortBy(entries, ['year', 'month']).reverse()
+      });
+    });
   }
 
   render() {
@@ -36,8 +30,8 @@ class Archive extends React.Component {
             {`${entry.year}-${entry.month}`}
           </Link>
         </li>
-      )
-    })
+      );
+    });
     return (
       <ul className="ryme-archive">
         {rendered}

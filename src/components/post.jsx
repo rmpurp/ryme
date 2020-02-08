@@ -1,18 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import ReactMarkdown from 'react-markdown'
-import PostFooter from './post_footer'
-import { PERMALINK_SYMBOL } from '../config'
+import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
+import PostFooter from './post_footer';
+import { PERMALINK_SYMBOL } from '../config';
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-} from "react-router-dom";
+} from 'react-router-dom';
 
+/**
+ * Component that renders posts from Markdown into HTML.
+ */
 class Post extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     date: PropTypes.object,
@@ -25,10 +24,10 @@ class Post extends React.Component {
   }
 
   render() {
-    let year = this.props.date.format("YYYY")
-    let month = this.props.date.format("MM")
-    let day = this.props.date.format("DD")
-    let permalink = `/${year}/${month}/${day}/${this.props.slug}`
+    const year = this.props.date.format('YYYY');
+    const month = this.props.date.format('MM');
+    const day = this.props.date.format('DD');
+    const permalink = `/${year}/${month}/${day}/${this.props.slug}`;
     return (
       <article className="ryme-post">
         <header>
@@ -40,7 +39,9 @@ class Post extends React.Component {
             <span className="ryme-date">
               {this.props.date.format('MMMM Do, YYYY')}
             </span>
-            <Link to={permalink} className="ryme-permalink">{PERMALINK_SYMBOL}</Link>
+            <Link to={permalink} className="ryme-permalink">
+              {PERMALINK_SYMBOL}
+            </Link>
           </p>
           <div className="ryme-date">
           </div>
