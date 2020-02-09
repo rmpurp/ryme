@@ -23,7 +23,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "basic-auth": "^2.0.1",
-    "bcrypt": "^3.0.8",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "immutable": "^4.0.0-rc.12",

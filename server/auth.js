@@ -1,6 +1,6 @@
 import auth from 'basic-auth';
 import compare from 'tsscmp';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { USERNAME, PASSWORD_HASH } from './server_config';
 
 export const requiresAuth = (req, res, next) => {
