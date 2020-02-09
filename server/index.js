@@ -82,6 +82,6 @@ app.use(function(req, res) {
   res.status(404).send('OOF! You\'ve been 404\'d.');
 });
 
-app.listen(port, function() {
+app.listen(port, '0.0.0.0', function() {
   console.log('App listening on port: ' + port);
 });
