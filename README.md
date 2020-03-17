@@ -18,6 +18,9 @@ There are two special fields that you have to put in the Markdown files:
 
 You can specify a ISO-8601 date including the time to order posts on the same day. Make sure the date you enter matches which folder the file is put into.
 
+## Admin Panel (Beta)
+The Admin panel is hosted at /admin and is currently authenticated using HTTP basic authentication (subject to change). Change the username and password in the `server/server_config.js` file. The admin panel allows you to delete old posts, create new posts, and override posts (by creating a new post with the same date and slug). 
+
 ## Usage
 1. Install node modules using `npm install`.
 2. Compile the frontend and the backend using `npm build-all`.
