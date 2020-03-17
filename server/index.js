@@ -1,14 +1,19 @@
 import express, { Router } from 'express';
 import { join } from 'path';
-import { getYearMonthPayload, getSpecificMarkdownFile, getYearMonthWithPosts, getRecentPostsPayload } from './get_posts';
+import { 
+  getYearMonthPayload,
+  getSpecificMarkdownFile,
+  getYearMonthWithPosts,
+  getRecentPostsPayload,
+  getPosts } from './get_posts';
 import { requiresAuth } from './auth';
 import { CACHE_PURGE_INTERVAL, DAYS_ON_FRONT_PAGE } from './server_config';
 import { sendCachedJSON } from './cache';
+import { Post } from './records';
+
+import { deletePost, createPost } from './post_management';
 
 const app = express();
-
-const apiRouter = Router();
-
 const port = process.env.PORT || 3000;
 const DIST_DIR = join(__dirname, '../dist');
 const POST_DIR = join(__dirname, '../posts');
@@ -19,13 +24,12 @@ let responseCache = new Map();
 const clearCache = () => {
   responseCache = new Map();
 };
+
 setInterval(clearCache, CACHE_PURGE_INTERVAL);
 
+
 // API calls
-apiRouter.post('/clear-cache', requiresAuth, (req, res) => {
-  clearCache();
-  res.send('Cache cleared.');
-});
+const apiRouter = Router({ strict: true });
 
 apiRouter.get('/:year/:month', (req, res) => {
   sendCachedJSON(responseCache, req, res, () => getYearMonthPayload(
@@ -54,29 +58,60 @@ apiRouter.get('/latest', (req, res) => {
 });
 
 apiRouter.use( (req, res) => res.status(404).send('OOF! You\'ve been 404\'d.'));
-
 app.use('/api', apiRouter);
 
+// Admin API calls
+const adminApiRouter = Router({ strict: true });
+adminApiRouter.use(express.json());
 
-app.get('/admin', [requiresAuth], (req, res) => {
-  res.statusCode = 403;
-  res.end();
+adminApiRouter.get('/all-posts', async (req, res) => {
+  res.json({ content: await getPosts(POST_DIR) });
 });
 
-const mediaRouter = Router({ strict: true });
+adminApiRouter.post('/create-post', (req, res) => {
+  let post = Post(req.body);
+  let postContent = req.body.content;
+  console.log(postContent);
+  let creationStatus = createPost(POST_DIR, post, postContent);
+  clearCache();
+  res.sendStatus(creationStatus ? 200 : 400);
+});
 
-// Static resources
+
+adminApiRouter.post('/delete-post', async (req, res) => {
+  let post = Post(req.body);
+  // 
+  let deleteStatus = await deletePost(POST_DIR, post);
+
+  clearCache();
+  res.sendStatus(deleteStatus ? 200 : 400);
+});
+
+adminApiRouter.use( (req, res) => res.status(404).send('OOF! You\'ve ben 404\'d.'));
+
+app.use('/admin-api', requiresAuth);
+app.use('/admin-api', adminApiRouter);
+
+
+// Admin panel
+app.get('/admin', [requiresAuth], (req, res) => {
+  res.sendFile(join(DIST_DIR, 'admin.html'));
+
+});
+
+// Media resources
+const mediaRouter = Router({ strict: true });
 mediaRouter.use('/', express.static(MEDIA_DIR));
 mediaRouter.use( (_, res) => res.status(404).send('OOF! You\'ve been 404\'d.'));
 
+
+app.use(express.static(DIST_DIR));
+
 app.use('/media', mediaRouter);
 
-app.use('/archives', express.static(DIST_DIR));
-app.use('/:year/:month', express.static(DIST_DIR));
-app.use('/:year/:month/:day/:title', express.static(DIST_DIR));
-app.use('/', express.static(DIST_DIR));
-
-// app.use('/admin', express.static(DIST_DIR));
+app.get(['/', '/*'], function(req, res) {
+  res.sendFile(join(DIST_DIR, 'index.html'));
+});
 
 app.use(function(req, res) {
   res.status(404).send('OOF! You\'ve been 404\'d.');

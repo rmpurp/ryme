@@ -5,11 +5,13 @@ import { SITE_TITLE } from '../config';
 
 import { Link } from 'react-router-dom';
 
+/**
+ * The archive of the blog, displaying links to months with posts.
+ */
 class Archive extends React.Component {
   state = {
     entries: []
   }
-
 
   componentDidMount() {
     document.title = `${SITE_TITLE} Archives`;
