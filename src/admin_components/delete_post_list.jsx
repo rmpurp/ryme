@@ -15,6 +15,9 @@ export class DeletePostList extends React.Component {
     this.fetchPosts();
   }
 
+  /**
+   * Fetches posts from the admin API.
+   */
   fetchPosts() {
     axios.get('/admin-api/all-posts').then(response => {
       let posts = response.data.content;
@@ -25,6 +28,10 @@ export class DeletePostList extends React.Component {
     });
   }
 
+  /**
+   * Makes an API call to remove the post.
+   * @param {*} post 
+   */
   removePost(post) {
     const shouldDelete = window.confirm('Really delete?');
     if (shouldDelete) {

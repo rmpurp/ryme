@@ -13,6 +13,8 @@ import { Post } from './records';
 
 import { deletePost, createPost } from './post_management';
 
+// TODO: split Routers into separate files
+
 const app = express();
 const port = process.env.PORT || 3000;
 const DIST_DIR = join(__dirname, '../dist');
