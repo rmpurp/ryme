@@ -15,7 +15,8 @@ module.exports = [{
   entry: './src/index.jsx',
   output: { // NEW
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   }, // NEW Ends
   plugins: [htmlPlugin],
   module: {
