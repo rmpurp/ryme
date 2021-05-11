@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "immutable": "^4.0.0-rc.12",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-datepicker": "^2.16.0",
